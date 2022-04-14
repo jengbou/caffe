@@ -1,7 +1,10 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 LABEL maintainer caffe-maint@googlegroups.com
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && \
+        DEBIAN_FRONTEND=noninteractive \
+        TZ=US/Eastern \
+        apt-get install -y --no-install-recommends \
         build-essential \
         cmake \
         git \
@@ -32,8 +35,8 @@ WORKDIR $CAFFE_ROOT
 ENV CLONE_TAG=1.0
 
 RUN git clone -b ${CLONE_TAG} --depth 1 https://github.com/BVLC/caffe.git . && \
-    pip install --upgrade pip && \
-    cd python && for req in $(cat requirements.txt) pydot; do pip install $req; done && cd .. && \
+    python -m pip install --upgrade pip --user && \
+    cd python && for req in $(cat requirements.txt) pydot; do python -m pip install $req --user; done && cd .. && \
     mkdir build && cd build && \
     cmake -DCPU_ONLY=1 .. && \
     make -j"$(nproc)"
