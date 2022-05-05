@@ -34,7 +34,7 @@ WORKDIR $CAFFE_ROOT
 # https://github.com/docker/hub-feedback/issues/460
 ENV CLONE_TAG=1.0
 
-RUN git clone -b ${CLONE_TAG} --depth 1 https://github.com/BVLC/caffe.git . && \
+RUN git clone -b ${CLONE_TAG} --depth 1 https://github.com/jengbou/caffe.git . && \
     python -m pip install --upgrade pip --user && \
     cd python && for req in $(cat requirements.txt) pydot; do python -m pip install $req --user; done && cd .. && \
     mkdir build && cd build && \
