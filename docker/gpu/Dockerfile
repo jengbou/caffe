@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.4.0-cudnn8-devel-ubuntu18.04
+FROM nvidia/cuda:10.2-cudnn8-devel-ubuntu16.04
 LABEL maintainer caffe-maint@googlegroups.com
 
 RUN apt-get update && \
@@ -34,12 +34,19 @@ WORKDIR $CAFFE_ROOT
 # https://github.com/docker/hub-feedback/issues/460
 ENV CLONE_TAG=1.2a
 
-RUN git clone -b ${CLONE_TAG} --depth 1 https://github.com/jengbou/caffe.git . && \
+RUN wget --quiet https://bootstrap.pypa.io/pip/2.7/get-pip.py && \
+    python get-pip.py && \
+    pip install --upgrade setuptools
+
+RUN rm -rf /opt/caffe
+
+RUN cmake --version && git clone -b ${CLONE_TAG} --depth 1 https://github.com/jengbou/caffe.git . && \
     python -m pip install --upgrade pip --user && \
     cd python && for req in $(cat requirements.txt) pydot; do python -m pip install $req --user; done && cd .. && \
-    git clone https://github.com/NVIDIA/nccl.git && cd nccl && make -j install && cd .. && rm -rf nccl && \
+#    git clone https://github.com/NVIDIA/nccl.git && cd nccl && make -j install && cd .. && rm -rf nccl && \
     mkdir build && cd build && \
-    cmake -DUSE_CUDNN=1 -DUSE_NCCL=1 .. && \
+#    cmake -DUSE_CUDNN=1 -DUSE_NCCL=1 .. && \
+    cmake -DCPU_ONLY=0 -DUSE_CUDNN=0 -DUSE_NCCL=0 .. && \
     make -j"$(nproc)"
 
 ENV PYCAFFE_ROOT $CAFFE_ROOT/python
