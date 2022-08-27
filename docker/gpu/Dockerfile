@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.2-cudnn8-devel-ubuntu16.04
+FROM nvidia/cuda:11.4.0-devel-ubuntu18.04
 LABEL maintainer caffe-maint@googlegroups.com
 
 RUN apt-get update && \
@@ -33,6 +33,10 @@ WORKDIR $CAFFE_ROOT
 # FIXME: use ARG instead of ENV once DockerHub supports this
 # https://github.com/docker/hub-feedback/issues/460
 ENV CLONE_TAG=1.2a
+
+RUN wget --quiet https://github.com/Kitware/CMake/releases/download/v3.12.2/cmake-3.12.2-Linux-x86_64.sh -O /opt/cmake-3.12.2-Linux-x86_64.sh && \
+    cd /opt && chmod a+x cmake-3.12.2-Linux-x86_64.sh && bash ./cmake-3.12.2-Linux-x86_64.sh --prefix=/usr/local --skip-license && \
+    cd -
 
 RUN wget --quiet https://bootstrap.pypa.io/pip/2.7/get-pip.py && \
     python get-pip.py && \
