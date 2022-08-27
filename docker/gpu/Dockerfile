@@ -32,7 +32,7 @@ WORKDIR $CAFFE_ROOT
 
 # FIXME: use ARG instead of ENV once DockerHub supports this
 # https://github.com/docker/hub-feedback/issues/460
-ENV CLONE_TAG=1.2a
+ENV CLONE_TAG=1.3
 
 RUN wget --quiet https://github.com/Kitware/CMake/releases/download/v3.12.2/cmake-3.12.2-Linux-x86_64.sh -O /opt/cmake-3.12.2-Linux-x86_64.sh && \
     cd /opt && chmod a+x cmake-3.12.2-Linux-x86_64.sh && bash ./cmake-3.12.2-Linux-x86_64.sh --prefix=/usr/local --skip-license && \
