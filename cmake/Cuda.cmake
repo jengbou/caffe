@@ -5,10 +5,11 @@ endif()
 # Known NVIDIA GPU achitectures Caffe can be compiled for.
 # This list will be used for CUDA_ARCH_NAME = All option
 # For RTX 2060
-set(Caffe_known_gpu_archs "52 60 61 70 75")
+# set(Caffe_known_gpu_archs "52 60 61 70 75")
 # For RTX 3080
 # set(Caffe_known_gpu_archs "80 80 86 87")
-
+# For RTX 4070
+set(Caffe_known_gpu_archs "89 89")
 
 ################################################################################################
 # A function for automatic detection of GPUs installed  (if autodetection is enabled)
